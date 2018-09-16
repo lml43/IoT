@@ -1,12 +1,15 @@
 package com.example.dell.lab1iot;
 
 import android.os.Handler;
+import android.util.Log;
 
 import com.google.android.things.pio.Gpio;
 import com.google.android.things.pio.PeripheralManager;
 import com.google.android.things.pio.Pwm;
 
 import java.io.IOException;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by dell on 9/15/2018.
@@ -22,6 +25,9 @@ public class BoardManager {
     int flag = 3;
     int dutyCycle = 50;
     int INTERVAL_BETWEEN_BLINKS_MS = 500;
+    int RED_INTERVAL;
+    int GREEN_INTERVAL;
+    int BLUE_INTERVAL;
     Gpio mLedGpioR = null;
     Gpio mLedGpioG = null;
     Gpio mLedGpioB = null;
@@ -43,5 +49,40 @@ public class BoardManager {
         mPwm.setPwmFrequencyHz(120);
         mPwm.setPwmDutyCycle(dutyCycle);
         mPwm.setEnabled(true);
+    }
+
+    void changeLedStateR() throws IOException {
+        mLedStateR = !mLedStateR;
+        mLedGpioR.setValue(mLedStateR);
+    }
+
+    void changeLedStateG() throws IOException {
+        mLedStateG = !mLedStateG;
+        mLedGpioG.setValue(mLedStateG);
+    }
+
+    void changeLedStateB() throws IOException {
+        mLedStateB = !mLedStateB;
+        mLedGpioB.setValue(mLedStateB);
+    }
+
+    void setIntervalR(int interval) {
+        RED_INTERVAL = interval;
+    }
+
+    void setIntervalG(int interval) {
+        GREEN_INTERVAL = interval;
+    }
+
+    void setIntervalB(int interval) {
+        BLUE_INTERVAL = interval;
+    }
+
+    void increaseFlag(int max) {
+        if (flag == max - 1)
+            flag = 0;
+        else
+            flag++;
+        Log.i(TAG, " ---" + flag);
     }
 }

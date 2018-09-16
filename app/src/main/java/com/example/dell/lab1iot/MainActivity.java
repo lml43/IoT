@@ -55,6 +55,83 @@ public class MainActivity extends Activity {
 
     }
 
+    /* Exercise 1 */
+    private void exercise1() {
+        manager.setIntervalR(manager.INTERVAL_BETWEEN_BLINKS_MS);
+        mHandler.post(mBlinkRunnableR);
+    }
+
+    private Runnable mBlinkRunnableR = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                manager.changeLedStateR();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            mHandler.postDelayed(mBlinkRunnableR, manager.RED_INTERVAL);
+        }
+    };
+
+    private Runnable mBlinkRunnableG = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                manager.changeLedStateG();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            mHandler.postDelayed(mBlinkRunnableG, manager.GREEN_INTERVAL);
+        }
+    };
+
+    private Runnable mBlinkRunnableB = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                manager.changeLedStateB();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            mHandler.postDelayed(mBlinkRunnableB, manager.BLUE_INTERVAL);
+        }
+    };
+
+    /* Exercise 2 */
+    private void exercise2() {
+        setInterval(manager.INTERVAL_BETWEEN_BLINKS_MS * 2);
+        mHandler.post(mBlinkRunnableR);
+        mHandler.post(mBlinkRunnableG);
+        mHandler.post(mBlinkRunnableB);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                manager.increaseFlag(4);
+                setIntervalByFlag(manager.flag);
+            }
+        });
+    }
+
+    private void setIntervalByFlag(int flag){
+        switch (flag) {
+            case 0: setInterval(manager.INTERVAL_BETWEEN_BLINKS_MS * 2);
+            case 1: setInterval(manager.INTERVAL_BETWEEN_BLINKS_MS);
+            case 2: setInterval(manager.INTERVAL_BETWEEN_BLINKS_MS / 5);
+            case 3: setInterval(manager.INTERVAL_BETWEEN_BLINKS_MS * 4);
+            default: setInterval(manager.INTERVAL_BETWEEN_BLINKS_MS * 2);
+        }
+    }
+
+    private void setInterval(int interval) {
+        manager.setIntervalR(interval);
+        manager.setIntervalG(interval);
+        manager.setIntervalB(interval);
+    }
+
     /* Exercise 4 */
     private void exercise4() {
 
