@@ -118,11 +118,11 @@ public class MainActivity extends Activity {
 
     private void setIntervalByFlag(int flag){
         switch (flag) {
-            case 0: setInterval(manager.INTERVAL_BETWEEN_BLINKS_MS * 2);
-            case 1: setInterval(manager.INTERVAL_BETWEEN_BLINKS_MS);
-            case 2: setInterval(manager.INTERVAL_BETWEEN_BLINKS_MS / 5);
-            case 3: setInterval(manager.INTERVAL_BETWEEN_BLINKS_MS * 4);
-            default: setInterval(manager.INTERVAL_BETWEEN_BLINKS_MS * 2);
+            case 0: setInterval(manager.INTERVAL_BETWEEN_BLINKS_MS * 2); break;
+            case 1: setInterval(manager.INTERVAL_BETWEEN_BLINKS_MS); break;
+            case 2: setInterval(manager.INTERVAL_BETWEEN_BLINKS_MS / 5); break;
+            case 3: setInterval(manager.INTERVAL_BETWEEN_BLINKS_MS * 4); break;
+            default: setInterval(manager.INTERVAL_BETWEEN_BLINKS_MS * 2); break;
         }
     }
 
@@ -130,6 +130,11 @@ public class MainActivity extends Activity {
         manager.setIntervalR(interval);
         manager.setIntervalG(interval);
         manager.setIntervalB(interval);
+    }
+
+    /* Exercise 3 */
+    private void exercise3() {
+
     }
 
     /* Exercise 4 */
@@ -228,6 +233,9 @@ public class MainActivity extends Activity {
         super.onDestroy();
         // Remove pending Runnable from the handler.
         mHandler.removeCallbacks(mBlinkRunnable4);
+        mHandler.removeCallbacks(mBlinkRunnableR);
+        mHandler.removeCallbacks(mBlinkRunnableG);
+        mHandler.removeCallbacks(mBlinkRunnableB);
         // Close the PWM port.
         Log.i(TAG, "Closing port");
         try {
