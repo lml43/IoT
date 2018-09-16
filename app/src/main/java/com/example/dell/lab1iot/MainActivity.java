@@ -134,7 +134,12 @@ public class MainActivity extends Activity {
 
     /* Exercise 3 */
     private void exercise3() {
-
+        try {
+            manager.mLedGpioR.setValue(false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mHandler.post(mBlinkRunnable4);
     }
 
     /* Exercise 4 */
@@ -144,7 +149,7 @@ public class MainActivity extends Activity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                changeFlag();
+                manager.increaseFlag(5);
                 colorHandler();
             }
         });
@@ -163,20 +168,9 @@ public class MainActivity extends Activity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Log.i(TAG, manager.dutyCycle + ": " + manager.mLedStateR + " - " + manager.mLedStateG + " - " + manager.mLedStateB);
-            // Reschedule the same runnable in {#INTERVAL_BETWEEN_BLINKS_MS} milliseconds
             mHandler.postDelayed(mBlinkRunnable4, manager.INTERVAL_BETWEEN_BLINKS_MS);
         }
     };
-
-    private void changeFlag() {
-        if (manager.flag == 4) {
-            manager.flag = 0;
-        } else {
-            manager.flag++;
-        }
-        Log.d(TAG, "Flag: " + manager.flag);
-    }
 
     private void colorHandler() {
         switch (manager.flag) {
@@ -224,6 +218,17 @@ public class MainActivity extends Activity {
         manager.dutyCycle -= 5;
         if (manager.dutyCycle == 0) manager.dutyCycle = 50;
         pwm.setPwmDutyCycle(manager.dutyCycle);
+    }
+
+    /* Exercise 5 */
+    private void exercise5() {
+        manager.setIntervalR(manager.INTERVAL_BETWEEN_BLINKS_MS);
+        manager.setIntervalG(manager.INTERVAL_BETWEEN_BLINKS_MS * 4);
+        manager.setIntervalG(manager.INTERVAL_BETWEEN_BLINKS_MS * 6);
+
+        mHandler.post(mBlinkRunnableR);
+        mHandler.post(mBlinkRunnableG);
+        mHandler.post(mBlinkRunnableB);
     }
 
     /* ----------------------------- */
